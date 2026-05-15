@@ -25,7 +25,7 @@ class Settings(BaseSettings):
     REDIS_PORT: int = 6379
 
     # 邀请码过期时间
-    INVITE_CODE_EXPIRE = 60 * 60 * 24 * 2
+    INVITE_CODE_EXPIRE: int = 60 * 60 * 24 * 2
 
     # 邮箱相关的配置
     MAIL_USERNAME: str = Field(..., validation_alias="MAIL_USERNAME")
@@ -33,7 +33,7 @@ class Settings(BaseSettings):
     MAIL_FROM: str = Field(..., validation_alias="MAIL_USERNAME")
     MAIL_PORT: int = 587
     MAIL_SERVER: str = "smtp.qq.com"
-    MAIL_FROM_NAME: str = "知了课堂"
+    MAIL_FROM_NAME: str = "智能招聘"
     MAIL_STARTTLS: bool = True
     MAIL_SSL_TLS: bool = False
 
