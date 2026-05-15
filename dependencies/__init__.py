@@ -4,7 +4,7 @@ from core.auth import AuthHandler
 
 from fastapi import Depends, HTTPException, status
 
-from models.user import UserModel
+from models.user import UserModel, UserStatus
 from repository.user_repo import UserRepo
 
 auth_handler = AuthHandler()
@@ -40,6 +40,8 @@ async def get_current_user(
         user: UserModel = await user_repo.get_by_id(user_id)
         if not user:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="该用户不存在！")
+        if user.status != UserStatus.ACTIVE:
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="该账号不可用，请联系管理员！")
         return user
 
 
