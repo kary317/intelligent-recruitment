@@ -44,6 +44,10 @@ class Settings(BaseSettings):
     # 前端和后端的域名
     BACKEND_BASE_URL: str = "https://headset-grafted-traction.ngrok-free.dev"
 
+    # 简历上传存储路径
+    RESUME_DIR: str = os.path.join(BASE_DIR, "upload")
+
+
     @computed_field
     @property
     def DATABASE_URL(self) -> str:

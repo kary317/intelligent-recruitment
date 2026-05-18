@@ -7,6 +7,8 @@ from redis import asyncio as aioredis
 from settings import settings
 from fastapi_cache.backends.redis import RedisBackend
 from fastapi_cache import FastAPICache
+from routers.candidate_router import router as candidate_router
+
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
@@ -35,6 +37,7 @@ app.add_middleware(
 
 app.include_router(user_router)
 app.include_router(position_router)
+app.include_router(candidate_router)
 
 
 @app.get("/")
