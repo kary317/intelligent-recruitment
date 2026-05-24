@@ -340,6 +340,27 @@ async def confirm_interview_time(
     """
 
 
+@tool
+async def refuse_interview(
+    runtime: ToolRuntime[CandidateAgentState],
+):
+    """
+    如果候选人拒绝了面试，那么调用该工具来更新候选人状态为拒绝面试
+    """
+    candidate = runtime.state['candidate']
+    try:
+        async with AsyncSessionFactory() as session:
+            async with session.begin():
+                candidate_repo = CandidateRepo(session)
+                await candidate_repo.update_candidate_status(
+                    candidate_id=candidate.id,
+                    status=CandidateStatusEnum.REFUSED_INTERVIEW,
+                )
+        return "已修改候选人状态为拒绝面试！"
+    except Exception as e:
+        return f"修改候选人状态为拒绝面试失败！"
+
+
 class CandidateProcessAgent:
     def __init__(self,
         candidate: CandidateSchema| None = None,
@@ -369,7 +390,8 @@ class CandidateProcessAgent:
                 score_for_candidate,
                 get_interviewer_available_slot,
                 send_interview_email,
-                confirm_interview_time
+                confirm_interview_time,
+                refuse_interview
             ],
             checkpointer=self._checkpointer
         )
